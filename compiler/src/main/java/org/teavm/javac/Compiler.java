@@ -253,6 +253,8 @@ public final class Compiler {
             throw new IllegalArgumentException("Main class not specified");
         }
         var mainClass = options.getMainClass().stringValue();
+        var strictMode = JSObjects.isUndefined(options.getStrictMode()) || options.getStrictMode().booleanValue();
+        var obfuscated = JSObjects.isUndefined(options.getObfuscated()) || options.getObfuscated().booleanValue();
 
         var target = new WasmGCTarget();
         var refCache = new ReferenceCache();
@@ -268,8 +270,8 @@ public final class Compiler {
                 .setClassSource(currentClassSource)
                 .setResourceProvider(currentResourceProvider)
                 .setReferenceCache(refCache)
-                .setObfuscated(true)
-                .setStrict(true)
+                .setObfuscated(obfuscated)
+                .setStrict(strictMode)
                 .build();
         teavm.setOptimizationLevel(TeaVMOptimizationLevel.ADVANCED);
         new JSOPlugin().install(teavm);
@@ -279,6 +281,7 @@ public final class Compiler {
         target.setObfuscated(false);
         target.setDebugInfoLocation(WasmDebugInfoLocation.EMBEDDED);
         target.setDebugInfo(true);
+        target.setStrict(strictMode);
         teavm.build(new MemoryBuildTarget(wasmOutputFiles), outputName);
         if (!diagnosticListeners.isEmpty()) {
             for (var problem : teavm.getProblemProvider().getProblems()) {

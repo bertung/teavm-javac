@@ -30,6 +30,7 @@ import org.teavm.javac.protocol.WorkerMessage;
 import org.teavm.jso.ajax.XMLHttpRequest;
 import org.teavm.jso.browser.Window;
 import org.teavm.jso.core.JSArray;
+import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSObjects;
 import org.teavm.jso.core.JSPromise;
 import org.teavm.jso.core.JSString;
@@ -215,6 +216,16 @@ public final class Worker {
             @Override
             public JSString getMainClass() {
                 return JSString.valueOf(mainClass);
+            }
+
+            @Override
+            public JSBoolean getStrictMode() {
+                return JSBoolean.valueOf(true);
+            }
+
+            @Override
+            public JSBoolean getObfuscated() {
+                return JSBoolean.valueOf(true);
             }
         };
         var reg = compiler.onDiagnostic(diagnostic -> handleTeaVMDiagnostic((TeaVMDiagnostic) diagnostic, requestId));

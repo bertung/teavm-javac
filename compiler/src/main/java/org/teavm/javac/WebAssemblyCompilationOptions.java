@@ -18,6 +18,7 @@ package org.teavm.javac;
 
 import org.teavm.jso.JSObject;
 import org.teavm.jso.JSProperty;
+import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSString;
 
 public interface WebAssemblyCompilationOptions extends JSObject {
@@ -26,4 +27,10 @@ public interface WebAssemblyCompilationOptions extends JSObject {
 
     @JSProperty
     JSString getMainClass();
+
+    @JSProperty
+    JSBoolean getStrictMode();
+
+    @JSProperty
+    JSBoolean getObfuscated();
 }
